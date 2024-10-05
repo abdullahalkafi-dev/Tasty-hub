@@ -10,7 +10,6 @@ export async function middleware(request: NextRequest) {
 
   console.log(pathname, "pathname");
 
-
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {
@@ -18,7 +17,6 @@ export async function middleware(request: NextRequest) {
     if (authRoutes.includes(pathname)) {
       return NextResponse.next();
     } else {
- 
       return NextResponse.redirect(
         new URL(
           pathname ? `/login?redirect=${pathname}` : "/login",
@@ -28,8 +26,6 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-
-
   let decodedToken = null;
 
   decodedToken = decode(accessToken) as any;
@@ -38,25 +34,16 @@ export async function middleware(request: NextRequest) {
 
   const role = decodedToken?.role;
 
-  console.log(role, "role");
-  console.log(pathname, "pathname");
-
-
   if (role === "admin" && pathname.match(/^\/admin-dashboard/)) {
     return NextResponse.next();
   }
-
- 
 
   if (role === "user" && pathname.match(/^\/user-dashboard/)) {
     return NextResponse.next();
   }
 
   return NextResponse.redirect(new URL("/", request.url));
- 
 }
-
-
 
 export const config = {
   matcher: [
@@ -64,7 +51,5 @@ export const config = {
     "/register",
     "/user-dashboard/:page*",
     "/admin-dashboard/:page*",
-   
   ],
 };
-

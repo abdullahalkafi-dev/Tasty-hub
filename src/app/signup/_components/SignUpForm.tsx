@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { cn } from "@/lib/utils";
-import { IconBrandGoogle } from "@tabler/icons-react";
+
 import Link from "next/link";
 import { z } from "zod";
 
@@ -19,13 +19,19 @@ import {
 } from "@/components/ui/form";
 import TextField from "@/components/form/textField";
 import ImageUpload from "@/components/ui/file-upload";
+import { useSignUpMutation } from "@/redux/api/features/auth/authApi";
+import { toast } from "sonner";
+import { usePathname, useRouter } from "next/navigation";
+import { TResError } from "@/types/global.types";
+import GoogleLoginBtn from "@/components/common/utils/GoogleLoginBtn";
+import Cookies from "js-cookie";
 
 const userSignUpSchema = z.object({
   name: z.string().min(3, {
     message: "Name must be at least 3 characters.",
   }),
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(6,{message:"Password should min 6 characters"}),
   image: z.string(),
 });
 
@@ -39,8 +45,46 @@ export default function SignUpForm() {
       password: "",
     },
   });
-  function onSubmit(data: any) {
-    console.log(data);
+  const [registerUser, { isLoading }] = useSignUpMutation();
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+   
+    const accessToken = Cookies.get("accessToken");
+  
+    if (accessToken && pathname === "/signup") {
+      router.replace("/"); // Redirect to home if logged in
+    }
+  }, [router, pathname]);
+
+
+  async function onSubmit(data: any) {
+    if (!data.image) {
+      return toast("Image is required", {
+        style: {
+          backgroundColor: "red",
+          fontWeight: "bold",
+          color: "white",
+          textAlign: "center",
+        },
+      });
+    }
+
+    const res = await registerUser(data);
+
+    if (res?.error) {
+      const error = res.error as TResError;
+      console.log(res?.error);
+      toast((error.data?.message as string) || "Something went wrong");
+    }
+
+    if (res?.data?.success) {
+      router.push("/login");
+      toast("SignUp successful", { id: 1, duration: 500 });
+      toast("Please Login", { id: 1, duration: 1000 });
+    }
   }
 
   return (
@@ -95,7 +139,7 @@ export default function SignUpForm() {
                         field.onChange(imageUrls[0]);
                       }}
                       value={[field.value as string]}
-                      // disabled={isPending}
+                      disabled={isLoading}
                     />
                   </FormControl>
                   <FormMessage />
@@ -106,7 +150,7 @@ export default function SignUpForm() {
 
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-            type="submit"
+            type={"submit"}
           >
             Sign up &rarr;
             <BottomGradient />
@@ -114,18 +158,8 @@ export default function SignUpForm() {
 
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 
-          <div className="flex flex-col space-y-4">
-            <button
-              className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-              type="submit"
-            >
-              <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-              <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                Google
-              </span>
-              <BottomGradient />
-            </button>
-          </div>
+          {/* Google login button */}
+          <GoogleLoginBtn />
           <div className="flex   justify-center pt-3  gap-2">
             <p>Already have account </p>{" "}
             <Link href={"/login"}>

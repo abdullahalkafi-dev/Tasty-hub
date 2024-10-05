@@ -1,50 +1,83 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React from "react";
-import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
+
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { IconBrandGoogle } from "@tabler/icons-react";
+
 import Link from "next/link";
 import { z } from "zod";
 
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import TextField from "@/components/form/textField";
+import { useLoginMutation } from "@/redux/api/features/auth/authApi";
+import Cookies from "js-cookie";
+import { TResError } from "@/types/global.types";
+import { toast } from "sonner";
+import GoogleLoginBtn from "@/components/common/utils/GoogleLoginBtn";
 
-
-
-const userSignUpSchema = z.object({
-  name: z.string().min(3, {
-    message: "Name must be at least 3 characters.",
-  }),
+const userLoginSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
-  image: z.string(),
+  password: z
+    .string()
+    .min(6, { message: "Password should be minimum 6 characters." }),
 });
 
 export default function LoginForm() {
-    const searchParams = useSearchParams();
+  const [login] = useLoginMutation();
 
-    const redirect = searchParams.get("redirect");
   const form = useForm({
-    resolver: zodResolver(userSignUpSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      image: "",
-      password: "",
-    },
+    resolver: zodResolver(userLoginSchema),
+    mode:"onChange"
   });
-  function onSubmit(data: any) {
-    console.log(data);
-  }
+
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Check if the user is already logged in
+    const accessToken = Cookies.get("accessToken");
+    if (accessToken && pathname === "/login") {
+      router.replace("/"); // Redirect to home if logged in
+    }
+  }, [router, pathname]);
+  const onSubmit = async (data: any) => {
+    try {
+      console.log("object");
+      const res = await login(data);
+
+      if (res?.data?.data?.accessToken) {
+        Cookies.set("accessToken", res.data.data.accessToken);
+      }
+      if (res?.data?.data?.refreshToken) {
+        Cookies.set("refreshToken", res.data.data.refreshToken);
+      }
+      if (res?.error) {
+        const error = res.error as TResError;
+        console.log(res?.error);
+        toast((error.data?.message as string) || "Something went wrong");
+      }
+
+      if (res?.data?.success) {
+        router.push("/");
+        toast("Login successful");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const check = async () => {
+    console.log("hello");
+  };
 
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
-      <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+      <h2
+        onClick={check}
+        className="font-bold text-xl text-neutral-800 dark:text-neutral-200"
+      >
         Welcome to TastyHub
       </h2>
       <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
@@ -52,8 +85,6 @@ export default function LoginForm() {
       </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="my-8">
-    
-
           <LabelInputContainer className="mb-4">
             <TextField
               control={form.control}
@@ -73,41 +104,24 @@ export default function LoginForm() {
             />
           </LabelInputContainer>
 
-        
-
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
             type="submit"
           >
-            Sign up &rarr;
+            Login &rarr;
             <BottomGradient />
           </button>
- </form></Form>
-          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-
-          <div className="flex flex-col space-y-4">
-            <button
-              onClick={() => {
-                signIn("google", { callbackUrl: redirect ? redirect : "/" });
-              }}
-              className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-              type="submit"
-            >
-              <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-              <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                Google
-              </span>
-              <BottomGradient />
-            </button>
-          </div>
-          <div className="flex   justify-center pt-3  gap-2">
-            <p>Don&apos;t have account </p>{" "}
-            <Link href={"/signup"}>
-              <p className="text-blue-500 font-bold hover:underline">SignUp</p>{" "}
-            </Link>
-          </div>
-       
-      
+        </form>
+      </Form>
+      <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+      {/* Google login btn */}
+      <GoogleLoginBtn />
+      <div className="flex   justify-center pt-3  gap-2">
+        <p>Don&apos;t have account </p>{" "}
+        <Link href={"/signup"}>
+          <p className="text-blue-500 font-bold hover:underline">SignUp</p>{" "}
+        </Link>
+      </div>
     </div>
   );
 }
@@ -134,3 +148,4 @@ const LabelInputContainer = ({
     </div>
   );
 };
+
