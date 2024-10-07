@@ -8,7 +8,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-const TextField = ({ fieldName, label, placeholder, control, type }: any) => {
+const TextField = ({ fieldName, label, placeholder, control, type ,className}: any) => {
   return (
     <FormField
       control={control}
@@ -17,7 +17,7 @@ const TextField = ({ fieldName, label, placeholder, control, type }: any) => {
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type={type} placeholder={placeholder} {...field} />
+            <Input className={className} type={type} placeholder={placeholder} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>

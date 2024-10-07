@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import TextField from "@/components/form/textField";
+import TextField from "@/components/form/TextField";
 import ImageUpload from "@/components/ui/file-upload";
 import { useSignUpMutation } from "@/redux/api/features/auth/authApi";
 import { toast } from "sonner";

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { CloudUpload, X } from "lucide-react";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 // Components
@@ -24,9 +24,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 }) => {
   const [loading, setLoading] = useState(false); // Track loading state
   const [uploadedImages, setUploadedImages] = useState(value); // Store images (can be single or multiple)
-  if (uploadedImages[0] == "") {
-    setUploadedImages([]);
-  }
+
+  useEffect(() => {
+    if (value[0] == "") {
+      setUploadedImages([]);
+    } else {
+      setUploadedImages(value);
+    }
+  }, [value]);
+
   const { edgestore } = useEdgeStore();
 
   // Handle file drop and image upload

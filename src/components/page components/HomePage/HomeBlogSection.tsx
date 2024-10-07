@@ -1,10 +1,14 @@
-import NewsCard from "@/components/common/NewsCard";
+import BlogCard from "@/components/common/BlogCard";
 import Link from "next/link";
+import { getBlogs } from "../../../services/blogServices";
+import { TBlog } from "@/types/blog.types";
 
-const HomeNewsSection = () => {
+const HomeBlogSection = async () => {
+  const res = await getBlogs("6");
+  const blogs =res.data
   return (
     <div>
-      <div className="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
+      <div className=" mx-auto p-5 sm:p-10 md:p-16">
         <div className="border-b mb-5 flex justify-between text-sm">
           <div className="text-indigo-600 flex items-center pb-2 pr-2 border-b-2 border-indigo-600 uppercase">
             <svg
@@ -28,16 +32,14 @@ const HomeNewsSection = () => {
                 <path d="M53.527,192.864c-2.187,3.518-1.109,8.142,2.409,10.329l183.478,114.081c1.232,0.767,2.601,1.132,3.953,1.132 c2.506,0,4.956-1.256,6.376-3.541c2.187-3.518,1.109-8.142-2.409-10.329L63.856,190.455 C60.338,188.266,55.714,189.346,53.527,192.864z"></path>
               </g>
             </svg>
-            <div  className="font-semibold inline-block">
-              Cooking BLog
-            </div>
+            <div className="font-semibold inline-block">Cooking BLog</div>
           </div>
           <Link href="/news">See all</Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-          {[1, 2, 3].map((item, index) => (
-            <NewsCard key={index} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {blogs.map((blog:TBlog) => (
+            <BlogCard blog={blog} key={blog._id} />
           ))}
         </div>
       </div>
@@ -45,4 +47,4 @@ const HomeNewsSection = () => {
   );
 };
 
-export default HomeNewsSection;
+export default HomeBlogSection;
