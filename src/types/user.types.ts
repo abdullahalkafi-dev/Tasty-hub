@@ -1,4 +1,5 @@
 export interface TUser {
+  _id: string;
   name: string;
   image: string;
   email: string;

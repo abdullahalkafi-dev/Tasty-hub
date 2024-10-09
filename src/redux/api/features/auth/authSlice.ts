@@ -1,42 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { RootState } from "@/redux/store";
+import { TUser } from "@/types/user.types";
 import { createSlice } from "@reduxjs/toolkit";
 
-// export type TUser = {
-//   userId: string;
-//   role: string;
-//   iat: number;
-//   exp: number;
-// };
 type TAuthState = {
-  user: any;
-  token: null | string;
+  user: TUser | null;
 };
 
 const initialState: TAuthState = {
   user: null,
-  token: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      const { user, token } = action.payload;
-      state.user = user;
-      state.token = token;
+    setUserRedux: (state, action) => {
+      const { data } = action.payload;
+      state.user = data;
     },
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-    },
+    logout:(state)=>{
+      state.user=null
+    }
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUserRedux ,logout} = authSlice.actions;
 
 export default authSlice.reducer;
-export const selectCurrentToken = (state: RootState) => state.auth.token;
+
 export const selectCurrentUser = (state: RootState) => state.auth.user;

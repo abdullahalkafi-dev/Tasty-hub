@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+// import 'quill/dist/quill.snow.css'; // Import the Quill stylesheet
 
 import AppProvider from "@/provider/app-provider";
 

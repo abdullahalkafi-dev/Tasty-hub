@@ -8,8 +8,6 @@ const authRoutes = ["/login", "/register"];
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  console.log(pathname, "pathname");
-
   const accessToken = cookies().get("accessToken")?.value;
 
   if (!accessToken) {

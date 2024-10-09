@@ -9,10 +9,10 @@ export default function Home() {
     <div className="">
       <HomePageBanner />
       <HomeShare />
-      <HomeCategory/>
+      <HomeCategory />
       <HomeRecipeSection />
       <HomeBlogSection />
-      <HomeStayInTouch/>
+      <HomeStayInTouch />
     </div>
   );
 }

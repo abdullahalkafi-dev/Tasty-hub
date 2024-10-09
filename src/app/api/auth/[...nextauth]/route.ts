@@ -46,8 +46,20 @@ const handler = NextAuth({
           console.log(data);
 
           if (data?.data?.accessToken || data?.data.refreshToken) {
-            cookies().set("accessToken", data.data.accessToken);
-            cookies().set("refreshToken", data.data.refreshToken);
+            cookies().set("accessToken", data.data.accessToken,
+               {
+              secure: true,
+              // sameSite: "none",
+              httpOnly:false
+            }
+          );
+            cookies().set("refreshToken", data.data.refreshToken, 
+              {
+              secure: true,
+              // sameSite: "none",
+              httpOnly:false
+            }
+          );
             return true;
           } else {
             return false;

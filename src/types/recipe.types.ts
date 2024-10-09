@@ -1,16 +1,15 @@
 import { TCategory } from "./foodCategory";
 import { TUser } from "./user.types";
 
-
 export interface TRecipe {
-    _id:string;
+  _id: string;
   user: TUser;
   name: string;
   description: string;
-  
+
   ingredients: { name: string }[];
   readyIn: number;
-  Directions: string;
+
   recipeImage: string;
   category: "Breakfast" | "Dinner" | "Lunch";
   foodCategory: TCategory;
@@ -24,10 +23,10 @@ export interface TRecipe {
     ratingNumber: number;
   }[];
   totalAverageRating: number;
-  status: 'published'| 'unPublished'|'pending';
+  status: "published" | "unPublished" | "pending";
   isPremium: boolean;
   isDeleted: boolean;
-  createdAt:string
+  createdAt: string;
 }
 export interface TRating {
   userId: string;
