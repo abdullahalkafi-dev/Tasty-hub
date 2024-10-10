@@ -37,7 +37,9 @@ const TextField = ({
               className={`${className} rounded-2xl`}
               type={type}
               placeholder={placeholder}
-              {...field}
+              {...(type === "number"
+                ? { ...field, value: field.value || "", onChange: (e) => field.onChange(Number(e.target.value)) }
+                : field)}
             />
           </FormControl>
           <FormMessage />

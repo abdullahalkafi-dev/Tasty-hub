@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Suspense, use, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 
 import Cookies from "js-cookie";
@@ -36,10 +36,9 @@ const Navbar = () => {
     { id: 7, href: `/dashboard/profile`, linkText: "Dashboard" },
   ];
 
-
   const userInfo = useAppSelector((state) => state.auth.user);
   useEffect(() => {
-    setIsMounted(true)
+    setIsMounted(true);
   }, []);
 
   const handleLogout = () => {
@@ -77,19 +76,16 @@ const Navbar = () => {
             </div>
           </div>
           <div className="hidden lg:block">
-          
-          {
-             isMounted && <LoginComponent userInfo={userInfo} handleLogout={handleLogout} />
-           }
-          
+            {isMounted && (
+              <LoginComponent userInfo={userInfo} handleLogout={handleLogout} />
+            )}
           </div>
           <div className="-mr-2 flex items-center gap-3 lg:hidden">
             <div className="mt-4">{/* <DarkModeToggle /> */}</div>
-           {
-             isMounted && <LoginComponent userInfo={userInfo} handleLogout={handleLogout} />
-           }
-           
-          
+            {isMounted && (
+              <LoginComponent userInfo={userInfo} handleLogout={handleLogout} />
+            )}
+
             <button
               type="button"
               className="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"

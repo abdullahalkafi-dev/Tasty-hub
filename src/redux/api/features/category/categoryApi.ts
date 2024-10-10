@@ -2,12 +2,8 @@ import { baseApi } from "../../baseApi";
 
 const categoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-
-
-  
     getAllCategory: builder.query({
       query: () => {
-     
         return {
           url: `/category`,
           method: "GET",
@@ -16,8 +12,4 @@ const categoryApi = baseApi.injectEndpoints({
     }),
   }),
 });
-export const {
-
-
-  useGetAllCategoryQuery
-} = categoryApi;
+export const { useGetAllCategoryQuery } = categoryApi;

@@ -46,7 +46,7 @@ export default function SignUpForm() {
     },
   });
   const [registerUser, { isLoading }] = useSignUpMutation();
-  
+
   const router = useRouter();
 
   const pathname = usePathname();

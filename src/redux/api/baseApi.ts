@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Need to use the React-specific entry point to import createApi
 
-import { getAccessToken, getRefreshToken } from "@/components/common/utils/token";
+import {
+  getAccessToken,
+  getRefreshToken,
+} from "@/components/common/utils/token";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define a service using a base URL and expected endpoints
@@ -30,9 +33,7 @@ export const baseApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["User", "Recipe", "Comment","Blog"],
 
-
-
-  tagTypes: [],
   endpoints: () => ({}),
 });

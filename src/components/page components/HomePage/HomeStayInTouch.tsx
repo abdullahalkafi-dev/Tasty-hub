@@ -29,7 +29,8 @@ const HomeStayInTouch = () => {
             <div className="flex justify-center flex-col px-4 md:flex-row items-center mx-auto">
               <div className="w-full  max-w-[700px]">
                  <TextField
-                className=" "
+                 control={form.control}
+                label="Email"
                 placeholder="example@gmail.com"
                 fieldName={"email"}
                 type={"email"}

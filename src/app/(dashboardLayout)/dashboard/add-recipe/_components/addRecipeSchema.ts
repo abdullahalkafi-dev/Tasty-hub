@@ -10,10 +10,11 @@ export const addRecipeSchema = z.object({
   ),
   readyIn: z.number().positive(),
   name: z.string().min(4),
-  foodCategory: z.string(), // Assuming foodCategory is also a MongoDB ObjectId
+  foodCategory: z.string(),
   isVegetarian: z.boolean(),
   totalPeople: z.number().positive(),
   description: z.string(),
   recipeImage: z.string(),
   category: z.string(),
+  isPremium: z.boolean(),
 });
