@@ -19,6 +19,7 @@ import { toast } from "sonner";
 
 import { setUserRedux } from "@/redux/api/features/auth/authSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import LoadingAnimation from "@/app/loading";
 
 const userLoginSchema = z.object({
   email: z.string().email(),
@@ -83,7 +84,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingAnimation/>}>
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to TastyHub

@@ -1,4 +1,5 @@
 import BreadcrumbComponent from "@/components/common/BreadcrumbComponent";
+import RecipeFeed from "./_components/RecipeFeed";
 
 const RecipePage = () => {
   const breadcrumbLinks = {
@@ -8,7 +9,11 @@ const RecipePage = () => {
   return (
     <div>
       <BreadcrumbComponent links={breadcrumbLinks} />
-      recipe page
+    <div>
+
+<RecipeFeed/>
+
+    </div>
     </div>
   );
 };

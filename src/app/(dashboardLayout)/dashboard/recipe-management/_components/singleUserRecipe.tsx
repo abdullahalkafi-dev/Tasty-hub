@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/lib/hooks";
 import Link from "next/link";
+import LoadingAnimation from "@/app/loading";
 
 interface RecipeData {
   _id: string;
@@ -177,7 +178,7 @@ const RecipeTable = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show loading message while fetching data
+    return <LoadingAnimation/>; // Show loading message while fetching data
   }
 
   if (error) {

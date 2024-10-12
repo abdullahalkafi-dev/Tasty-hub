@@ -36,6 +36,7 @@ import {
   useUpdateRecipeMutation,
 } from "@/redux/api/features/recipe/recipeApi";
 import { useRouter } from "next/navigation";
+import LoadingAnimation from "@/app/loading";
 
 const ReactQuillEditor = dynamic(
   () => import("@/components/common/ReactQuill/ReactQuillEditor"),
@@ -160,7 +161,7 @@ const RecipeFormComponent = ({ recipe }: any) => {
     return <div>Error loading categories</div>;
   }
   if (!userInfo || isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation/>;
   }
   return (
     <div className="flex justify-center ">

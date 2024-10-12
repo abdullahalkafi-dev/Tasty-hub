@@ -10,7 +10,7 @@ import { AvatarFallback } from "@radix-ui/react-avatar";
 
 const RecipeCard = ({ recipe }: { recipe: TRecipe }) => {
   return (
-    <div className="shadow-lg rounded-xl">
+    <div className="shadow-lg bg-[#FFF0ED] rounded-xl">
       <div className="flex flex-col space-y-3">
         {/* Container for maintaining aspect ratio and filling image */}
         <div className="relative rounded-t-xl overflow-hidden h-[200px] w-full">

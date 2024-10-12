@@ -1,9 +1,10 @@
-const Page = () => {
+import dynamic from 'next/dynamic';
+
+const ProfileComponent = dynamic(()=> import("@/app/(dashboardLayout)/dashboard/profile/_components/ProfileComponent"),{ssr:false});
+const ProfilePage = () => {
   return (
-    <div>
-      User profile
-    </div>
+   <ProfileComponent/>
   );
 };
 
-export default Page;
+export default ProfilePage;

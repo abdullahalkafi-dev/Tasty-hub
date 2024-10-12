@@ -17,13 +17,13 @@ type TLinks = {
 
 const BreadcrumbComponent = ({ links }: { links: TLinks }) => {
   return (
-    <Breadcrumb>
+    <Breadcrumb className="ml-3">
       <BreadcrumbList>
         {links.preLinks.map((preLink) => (
-          <div className="flex items-center" key={preLink.name}>
+          <div className="flex items-center" key={preLink?.name}>
             <BreadcrumbItem>
               <BreadcrumbLink href={preLink.link}>
-                {preLink.name}
+                {preLink?.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="mt-[2px]" />
@@ -31,7 +31,7 @@ const BreadcrumbComponent = ({ links }: { links: TLinks }) => {
         ))}
         <BreadcrumbItem>
           <BreadcrumbPage className="font-medium">
-            {links.pageName}
+            {links?.pageName}
           </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>

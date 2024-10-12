@@ -10,6 +10,7 @@ import {
 import { HomeIcon, NewspaperIcon, PlusCircle } from "lucide-react";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const SidebarComponent = ({ sideBrLinks }: any) => {
@@ -67,7 +68,9 @@ const SidebarComponent = ({ sideBrLinks }: any) => {
       <SidebarBody className="justify-between  gap-10 h-screen ">
         <div className="flex flex-col flex-1  overflow-x-hidden">
           {/* Logo */}
-          <p className="text-2xl font-bold">TastyHub</p>
+          <Link href={"/"}>
+            <p className="text-2xl font-bold">TastyHub</p>
+          </Link>
           <div className="mt-8 flex flex-col gap-2">
             {sideBrLinks.map((link: any) => (
               <SidebarLink key={link.label} link={link} />

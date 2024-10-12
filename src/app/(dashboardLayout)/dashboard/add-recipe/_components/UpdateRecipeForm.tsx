@@ -1,6 +1,7 @@
 "use client";
 import { useGetSingleRecipeQuery } from "@/redux/api/features/recipe/recipeApi";
 import RecipeFormComponent from "./RecipeFormComponent";
+import LoadingAnimation from "@/app/loading";
 
 const RecipeFromDataComponent = ({ id }: { id: string }) => {
   const { data, isLoading } = useGetSingleRecipeQuery(id, {
@@ -10,7 +11,7 @@ const RecipeFromDataComponent = ({ id }: { id: string }) => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation />;
   }
   const recipe = data?.data;
 

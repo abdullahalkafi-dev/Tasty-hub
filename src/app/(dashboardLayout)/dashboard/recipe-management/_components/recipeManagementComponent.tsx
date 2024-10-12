@@ -28,6 +28,7 @@ import {
 } from "@/redux/api/features/recipe/recipeApi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import LoadingAnimation from "@/app/loading";
 
 interface RecipeData {
   _id: string;
@@ -181,7 +182,7 @@ const RecipeTable = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show loading message while fetching data
+    return <LoadingAnimation/>; // Show loading message while fetching data
   }
 
   if (error) {

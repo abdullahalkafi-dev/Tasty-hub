@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 
 const UpdateBlogPage = async({params}:{params:Record<string,unknown>}) => {
 
-const res=await fetch(`${process.env.NEXT_BASE_URL}/blog/${params.blogId}`,{
+const res=await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blog/${params.blogId}`,{
     cache: "no-cache",
     
 })

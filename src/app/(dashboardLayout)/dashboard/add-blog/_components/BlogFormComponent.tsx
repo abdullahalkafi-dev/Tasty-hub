@@ -35,6 +35,7 @@ import {
   useCreateBlogMutation,
   useUpdateBlogMutation,
 } from "@/redux/api/features/blog/blogApi";
+import LoadingAnimation from "@/app/loading";
 
 const ReactQuillEditor = dynamic(
   () => import("@/components/common/ReactQuill/ReactQuillEditor"),
@@ -125,7 +126,7 @@ const BlogFormComponent = ({ blog }: any) => {
   };
 
   if (!userInfo || isCreatingBlog || isUpdatingBlog) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation/>;
   }
   return (
     <div className="flex justify-center ">

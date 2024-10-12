@@ -32,7 +32,7 @@ const Navbar = () => {
     { id: 2, href: "/recipe", linkText: "Recipes" },
     { id: 4, href: "/blog", linkText: "Blogs" },
     { id: 5, href: "/about", linkText: "About Us" },
-    { id: 6, href: "/Contact", linkText: "Contact" },
+    { id: 6, href: "/contact", linkText: "Contact" },
     { id: 7, href: `/dashboard/profile`, linkText: "Dashboard" },
   ];
 
@@ -196,7 +196,7 @@ const ProfileImageDrop = ({
             <DropdownMenuSeparator />
             <DropdownMenuItem autoFocus={false}>
               <Button className="font-bold h-8 w-full bg-blue-700 text-white">
-                <Link href={"/profile"}>Profile</Link>{" "}
+                <Link href={"/dashboard/profile"}>Profile</Link>{" "}
               </Button>
             </DropdownMenuItem>
 

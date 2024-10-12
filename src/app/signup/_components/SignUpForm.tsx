@@ -25,6 +25,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { TResError } from "@/types/global.types";
 
 import Cookies from "js-cookie";
+import LoadingAnimation from "@/app/loading";
 
 const userSignUpSchema = z.object({
   name: z.string().min(3, {
@@ -87,7 +88,7 @@ export default function SignUpForm() {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<LoadingAnimation/>}>
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:px-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to TastyHub

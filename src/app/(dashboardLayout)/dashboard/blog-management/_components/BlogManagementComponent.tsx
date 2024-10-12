@@ -30,6 +30,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { foodBlogCategories } from "@/constant";
 import { z } from "zod";
+import LoadingAnimation from "@/app/loading";
 
 export const BlogSchema = z.object({
   user: z.string({ required_error: 'User Id is required' }).min(2).max(255),
@@ -164,7 +165,7 @@ const BlogTable = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation/>;
   }
 
   if (error) {

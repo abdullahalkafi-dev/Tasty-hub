@@ -3,57 +3,65 @@ import { baseApi } from "../../baseApi";
 const recipeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllRecipe: builder.query({
-      query: () => {
-        return {
-          url: `/recipe`,
-          method: "GET",
-        };
-      },
+      query: () => ({
+        url: `/recipe`,
+        method: "GET",
+      }),
       providesTags: ["Recipe"],
     }),
     getSingleRecipe: builder.query({
-      query: (id) => {
-        return {
-          url: `/recipe/${id}`,
-          method: "GET",
-        };
-      },
+      query: (id) => ({
+        url: `/recipe/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "SingleRecipe", id }],
     }),
     togglePublishStatus: builder.mutation({
-      query: (id) => {
-        return {
-          url: `/recipe/toggle-status/${id}`,
-          method: "PATCH",
-        };
-      },
+      query: (id) => ({
+        url: `/recipe/toggle-status/${id}`,
+        method: "PATCH",
+      }),
       invalidatesTags: ["Recipe"],
     }),
     getRecipeForUser: builder.query({
-      query: (id) => {
-        return {
-          url: `/recipe/user/${id}`,
-          method: "GET",
-        };
-      },
+      query: (id) => ({
+        url: `/recipe/user/${id}`,
+        method: "GET",
+      }),
+    }),
+    getRecipeComment: builder.query({
+      query: (id) => ({
+        url: `/comment/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Comment"],
     }),
     createRecipe: builder.mutation({
-      query: (body) => {
-        return {
-          url: `/recipe/create-recipe`,
-          method: "POST",
-          body,
-        };
-      },
+      query: (body) => ({
+        url: `/recipe/create-recipe`,
+        method: "POST",
+        body,
+      }),
       invalidatesTags: ["Recipe"],
     }),
+    createComment: builder.mutation({
+      query: (body) => ({
+        url: `/comment`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Comment", "SingleRecipe"],
+    }),
     deleteRecipe: builder.mutation({
-      query: (id) => {
-        return {
-          url: `/recipe/${id}`,
-          method: "DELETE",
-        };
-      },
-      invalidatesTags: ["Recipe"],
+      query: (id: string) => ({
+        url: `/recipe/${id}`,
+        method: "DELETE",
+      }),
+      // Here, we need to use the `id` correctly
+      invalidatesTags: (result, error, id) => [
+        "Recipe",
+        { type: "SingleRecipe", id },
+      ],
     }),
     updateRecipe: builder.mutation({
       query: ({ body, id }) => {
@@ -64,10 +72,15 @@ const recipeApi = baseApi.injectEndpoints({
           body,
         };
       },
-      invalidatesTags: ["Recipe"],
+      // Make sure `id` is destructured correctly here
+      invalidatesTags: (result, error, { id }) => [
+        "Recipe",
+        { type: "SingleRecipe", id },
+      ],
     }),
   }),
 });
+
 export const {
   useGetAllRecipeQuery,
   useCreateRecipeMutation,
@@ -76,4 +89,6 @@ export const {
   useUpdateRecipeMutation,
   useGetRecipeForUserQuery,
   useTogglePublishStatusMutation,
+  useGetRecipeCommentQuery,
+  useCreateCommentMutation,
 } = recipeApi;

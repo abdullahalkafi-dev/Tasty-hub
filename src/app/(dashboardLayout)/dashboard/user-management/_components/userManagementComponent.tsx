@@ -22,14 +22,13 @@ import {
 import { useMemo } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+
 import {
-  useDeleteRecipeMutation,
- 
-  useTogglePublishStatusMutation,
-} from "@/redux/api/features/recipe/recipeApi";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useGetAllUsersQuery } from "@/redux/api/features/auth/authApi";
+  useGetAllUsersQuery,
+  usePromoteToAdminMutation,
+  useToggleUserStatusMutation,
+} from "@/redux/api/features/auth/authApi";
+import LoadingAnimation from "@/app/loading";
 
 interface UserData {
   _id: string;
@@ -46,101 +45,126 @@ interface UserData {
 const UserTable = () => {
   const { data, isLoading, error } = useGetAllUsersQuery(undefined); // Check loading state
   const userData = data?.data;
-  const [deleteRecipeMutation] = useDeleteRecipeMutation();
-  const [toggleRecipeStatus] = useTogglePublishStatusMutation();
-  const router = useRouter();
+  const [toggleUserStatus] = useToggleUserStatusMutation();
+  const [promoteToAdmin] = usePromoteToAdminMutation();
+  
+  const columns = useMemo<ColumnDef<UserData>[]>(
+    () => [
+      {
+        header: "User",
+        accessorKey: "name",
+        cell: ({ row }) => (
+          <div className="flex items-center">
+            <Image
+              width={400}
+              height={400}
+              src={row.original.image}
+              alt={row.original.name}
+              className="h-8 w-8 rounded-full mr-2"
+            />
+            <span>{row.original.name}</span>
+          </div>
+        ),
+      },
+      {
+        header: "Email",
+        accessorKey: "email",
+      },
+      {
+        header: "Role",
+        accessorKey: "role",
+      },
+      {
+        header: "Followers",
+        accessorKey: "followers",
+        cell: ({ row }) => row.original.followers.length,
+      },
+      {
+        header: "Recipes Published",
+        accessorKey: "recipePublished",
+        cell: ({ row }) => row.original.recipePublished.length,
+      },
+      {
+        header: "Premium",
+        accessorKey: "isPremium",
+        cell: ({ row }) => (row.original.isPremium ? "Yes" : "No"),
+      },
+      {
+        header: "Blocked",
+        accessorKey: "isBlocked",
+        cell: ({ row }) => (row.original.isBlocked ? "Yes" : "No"),
+      },
+      {
+        header: "Actions",
+        cell: ({ row }) => (
+          <div className="flex gap-2">
+            {row.original.role === "admin" || (
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button variant="outline" size="sm">
+                    Promote to Admin
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This user will have full access to the platform.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => promoteToAdmin(row.original._id)}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
 
-  // Define columns for the table
-  const columns = useMemo<ColumnDef<UserData>[]>(() => [
-    {
-      header: "User",
-      accessorKey: "name",
-      cell: ({ row }) => (
-        <div className="flex items-center">
-          <Image
-            width={400}
-            height={400}
-            src={row.original.image}
-            alt={row.original.name}
-            className="h-8 w-8 rounded-full mr-2"
-          />
-          <span>{row.original.name}</span>
-        </div>
-      ),
-    },
-    {
-      header: "Email",
-      accessorKey: "email",
-    },
-    {
-      header: "Role",
-      accessorKey: "role",
-    },
-    {
-      header: "Followers",
-      accessorKey: "followers",
-      cell: ({ row }) => row.original.followers.length,
-    },
-    {
-      header: "Recipes Published",
-      accessorKey: "recipePublished",
-      cell: ({ row }) => row.original.recipePublished.length,
-    },
-    {
-      header: "Premium",
-      accessorKey: "isPremium",
-      cell: ({ row }) => (row.original.isPremium ? "Yes" : "No"),
-    },
-    {
-      header: "Blocked",
-      accessorKey: "isBlocked",
-      cell: ({ row }) => (row.original.isBlocked ? "Yes" : "No"),
-    },
-    {
-      header: "Actions",
-      cell: ({ row }) => (
-        <div className="flex gap-1">
-        
-          {/* <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push(`/user/${row.original._id}`)}
-          >
-            Details
-          </Button> */}
-          
-          <AlertDialog>
-            <AlertDialogTrigger>
-            <Button
-            variant="destructive"
-            size="sm"
-            onClick={() => toggleRecipeStatus(row.original._id)}
-          >
-            {row.original.isBlocked ? "Unblock" : "Block"}
-          </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => handleDelete(row.original._id)}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      ),
-    },
-  ], []);
+            {row.original.role === "admin" || (
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <Button
+                    disabled={row.original.role === "admin"}
+                    variant="destructive"
+                    size="sm"
+                  >
+                    {row.original.isBlocked ? "Unblock" : "Block"}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                     {
+                      row.original.isBlocked ? "This user will be unblocked." : "This user will be blocked."
+                     }
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => toggleUserStatus(row.original._id)}
+                    >
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+          </div>
+        ),
+      },
+    ],
+    []
+  );
 
   // Table instance
   const table = useReactTable({
@@ -149,25 +173,8 @@ const UserTable = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleUpdate = (id: string) => {
-    router.push(`/dashboard/user-management/${id}`);
-
-    // Add your update logic here
-  };
-
-  const handleDelete = async (id: string) => {
-    const res = await deleteRecipeMutation(id);
-
-    if (res.error) {
-      console.log(res.error);
-    }
-    if (res.data?.success) {
-      toast("User deleted successfully");
-    }
-  };
-
   if (isLoading) {
-    return <div>Loading...</div>; // Show loading message while fetching data
+    return <LoadingAnimation/>; // Show loading message while fetching data
   }
 
   if (error) {

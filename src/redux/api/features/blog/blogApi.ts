@@ -50,7 +50,7 @@ const blogApi = baseApi.injectEndpoints({
     updateBlog: builder.mutation({
       query: ({ body, id }) => {
         console.log(id);
-        console.log(body); 
+        console.log(body);
         return {
           url: `/blog/${id}`,
           method: "PATCH",
@@ -62,11 +62,10 @@ const blogApi = baseApi.injectEndpoints({
   }),
 });
 export const {
-useCreateBlogMutation,
-useDeleteBlogMutation,
-useGetAllBlogQuery,
-useGetBlogForUserQuery,
-useGetSingleBlogQuery,
-useUpdateBlogMutation,
-
+  useCreateBlogMutation,
+  useDeleteBlogMutation,
+  useGetAllBlogQuery,
+  useGetBlogForUserQuery,
+  useGetSingleBlogQuery,
+  useUpdateBlogMutation,
 } = blogApi;
