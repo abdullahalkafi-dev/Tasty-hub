@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import RecipeDetailsSidebar from "./_components/recipeDetailsSidebar";
 
+
 const Page = async ({ params }: { params: { recipeId: string } }) => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/recipe/${params.recipeId}`,
@@ -18,14 +19,8 @@ const Page = async ({ params }: { params: { recipeId: string } }) => {
       cache: "no-cache",
     }
   );
-  const data = await res.json();
-  const resSideData = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/recipe?limit=6`,
-    {
-      cache: "no-cache",
-    }
-  );
-  const sideBarData = await resSideData.json();
+  const data = await res.json(); 
+ 
 
   const recipe: TRecipe = data?.data;
 
@@ -99,9 +94,7 @@ const Page = async ({ params }: { params: { recipeId: string } }) => {
         </div>
         <div className="lg:w-[30%] min-h-screen lg:pt-5 px-5 ">
           <p className="text-2xl text-center pb-5 font-bold">You may like </p>
-          {
-       <RecipeDetailsSidebar recipes={sideBarData?.data} />
-          }
+          {<RecipeDetailsSidebar  />}
         </div>
       </div>
     </div>

@@ -62,7 +62,10 @@ const UserCard = ({ user }: { user: TUser }) => {
   const [unFollow] = useUnFollowUserMutation();
   const [follow] = useFollowUserMutation();
   const handleUnFollow = async () => {
-    const res = await unFollow({ id: loggedInUser, targetUserId: user._id });
+    const res = await unFollow({
+      id: loggedInUser?._id,
+      targetUserId: user._id,
+    });
     if (res.error) {
       console.log(res.error);
     }
@@ -72,7 +75,7 @@ const UserCard = ({ user }: { user: TUser }) => {
     await refetch();
   };
   const handleFollow = async () => {
-    const res = await follow({ id: loggedInUser, targetUserId: user._id });
+    const res = await follow({ id: loggedInUser?._id, targetUserId: user._id });
     if (res.error) {
       console.log(res.error);
     }

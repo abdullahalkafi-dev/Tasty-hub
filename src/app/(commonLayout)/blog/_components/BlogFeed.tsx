@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import RecipeCard from "@/components/common/RecipeCard";
 import SideSection from "@/components/common/sideSection/SideSection";
-
-import { TRecipe } from "@/types/recipe.types";
-
 import { useEffect, useState, useCallback } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import BlogCard from "@/components/common/BlogCard";
+import { TBlog } from "@/types/blog.types";
 import debounce from "lodash.debounce";
-
 import {
   Select,
   SelectContent,
@@ -17,57 +14,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGetAllCategoryQuery } from "@/redux/api/features/category/categoryApi";
-import { useAppSelector } from "@/lib/hooks";
-import { getAccessToken, getRefreshToken } from "@/components/common/utils/token";
 
-export default function RecipeFeed() {
+import { foodBlogCategories } from "@/constant";
+import { useAppSelector } from "@/lib/hooks";
+
+export default function BlogFeed() {
   const [items, setItems] = useState<any[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
-  const [recipe, setRecipe] = useState<TRecipe[]>([]);
+  const [blog, setBlog] = useState<TBlog[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { data: categoryRes } = useGetAllCategoryQuery("");
-const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const fetchItems = async (searchTerm: string, category: string | null) => {
     if (loading) return; // Prevent fetching while loading
 
     setLoading(true); // Start loading
 
     try {
-      const categoryQuery = category ? `&foodCategory=${category}` : "";
+      const categoryQuery = category ? `&blogCategory=${category}` : "";
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/recipe/?limit=2&page=${page}&searchTerm=${searchTerm}${categoryQuery}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/blog/?limit=2&page=${page}&searchTerm=${searchTerm}${categoryQuery}`,
         {
           cache: "no-cache", // No caching to ensure fresh data
-          credentials: "include", // Include credentials in the request
-          headers: (() => {
-        const headers = new Headers();
-        const accessToken = getAccessToken();
-        const refreshToken = getRefreshToken();
-
-        // Set the Authorization header if the access token exists
-        if (accessToken) {
-          headers.set("Authorization", `Bearer ${accessToken}`);
-        }
-
-        // Optionally, set the refresh token in a custom header if needed
-        if (refreshToken) {
-          headers.set("x-refresh-token", refreshToken);
-        }
-
-        return headers;
-          })(),
         }
       );
       const newItems = await response.json();
 
+      console.log(`Fetching page: ${page}`);
+      console.log(newItems);
+
       // Check if there's new data
       if (newItems?.data.length > 0) {
         setItems((prevItems: any) => [...prevItems, ...newItems.data]);
-        setRecipe((prevRecipe: TRecipe[]) => [...prevRecipe, ...newItems.data]);
+        setBlog((prevBlog: TBlog[]) => [...prevBlog, ...newItems.data]);
         setHasMore(true);
       } else {
         setHasMore(false); // No more items to fetch
@@ -90,19 +71,16 @@ const user = useAppSelector((state) => state.auth.user);
     debounce((searchTerm: string, category: string | null) => {
       setPage(1); // Reset page to 1 for new search
       setItems([]); // Clear previous items
-      setRecipe([]); // Clear previous recipes
+      setBlog([]); // Clear previous blogs
       fetchItems(searchTerm, category);
     }, 500),
     []
   );
 
-  const categoryNames =
-    categoryRes && categoryRes.data
-      ? categoryRes.data.map((foodCategory: any) => ({
-          label: foodCategory.name,
-          value: foodCategory._id,
-        }))
-      : [];
+  const categoryNames = foodBlogCategories.map((foodCategory: any) => ({
+    label: foodCategory,
+    value: foodCategory,
+  }));
 
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,17 +104,20 @@ const user = useAppSelector((state) => state.auth.user);
 
   return (
     <div className="min-h-screen grid grid-cols-1 xl:grid-cols-2 justify-between relative gap-20">
-      
       <main className="me-auto max-w-[500px] mx-auto py-6 w-full pt-20">
-        {user?.isPremium || <div> 
-        
-         <p className="text-sm pb-4 font-semibold text-red-500"> Only premium users can view premium content</p>
-           </div>}
+        {user?.isPremium || (
+          <div>
+            <p className="text-sm pb-4 font-semibold text-red-500">
+              {" "}
+              Only premium users can view premium content
+            </p>
+          </div>
+        )}
         <div className="flex w-full gap-4 pb-3 justify-center">
           <div>
             <input
               type="text"
-              placeholder="Search recipes..."
+              placeholder="Search blogs..."
               value={searchTerm}
               onChange={handleSearchChange}
               className="w-full p-2 border rounded-full border-gray-300 "
@@ -145,8 +126,8 @@ const user = useAppSelector((state) => state.auth.user);
           <div>
             <div className="mt-1 w-full">
               <Select onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-full  rounded-full">
-                  <SelectValue placeholder="Select food category" />
+                <SelectTrigger className="w-full rounded-full">
+                  <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categoryNames.map((category: any) => (
@@ -161,7 +142,7 @@ const user = useAppSelector((state) => state.auth.user);
         </div>
 
         <p className="text-2xl font-bold text-center underline pb-10">
-          All recipes
+          All Blogs
         </p>
         <div className="grid grid-cols-1 gap-4">
           <InfiniteScroll
@@ -169,7 +150,9 @@ const user = useAppSelector((state) => state.auth.user);
             next={loadMore}
             hasMore={hasMore}
             loader={
-              <p className="text-center font-bold pt-10 text-2xl">Loading...</p>
+              <p className="text-center font-bold pt-10 text-2xl">
+                Loading....
+              </p>
             }
             endMessage={
               <p className="text-center font-bold pt-10 text-2xl">
@@ -178,8 +161,8 @@ const user = useAppSelector((state) => state.auth.user);
             }
           >
             <div className="grid grid-cols-1 gap-4">
-              {recipe.map((post: TRecipe) => (
-                <RecipeCard key={post._id} recipe={post} />
+              {blog.map((post: TBlog) => (
+                <BlogCard key={post._id} blog={post} />
               ))}
             </div>
           </InfiniteScroll>

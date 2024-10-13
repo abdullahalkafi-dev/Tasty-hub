@@ -5,7 +5,7 @@ import { TBlog } from "@/types/blog.types";
 
 const HomeBlogSection = async () => {
   const res = await getBlogs("6");
-  const blogs =res.data
+  const blogs = res.data;
   return (
     <div>
       <div className=" mx-auto p-5 sm:p-10 md:p-16">
@@ -38,7 +38,7 @@ const HomeBlogSection = async () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {blogs.map((blog:TBlog) => (
+          {blogs.map((blog: TBlog) => (
             <BlogCard blog={blog} key={blog._id} />
           ))}
         </div>

@@ -8,5 +8,6 @@ export interface TBlog {
   title: string;
   description: string;
   image: string;
+  isPremium: boolean;
   createdAt: string;
 }

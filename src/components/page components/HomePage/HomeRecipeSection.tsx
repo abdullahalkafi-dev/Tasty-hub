@@ -1,12 +1,15 @@
-import { getRecipe } from "@/services/recipeServices";
+"use client"
+
 import Link from "next/link";
 import RecipeCard from "../../common/RecipeCard";
 import { TRecipe } from "@/types/recipe.types";
+import { useGetAllRecipeQuery } from "@/redux/api/features/recipe/recipeApi";
 
-const HomeRecipeSection = async () => {
-  const res = await getRecipe("6");
-  const recipes = await res?.data;
-
+const HomeRecipeSection =  () => {
+const {data,isLoading}= useGetAllRecipeQuery(undefined)
+const recipes = data?.data
+if(isLoading) return <div>Loading...</div>
+if(!recipes) return null
   return (
     <div>
       <div className=" mx-auto p-5 sm:p-10 md:p-16">
@@ -18,7 +21,7 @@ const HomeRecipeSection = async () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {recipes?.map((recipe: TRecipe) => (
+          {recipes?.slice(0,6)?.map((recipe: TRecipe) => (
             <RecipeCard recipe={recipe} key={recipe._id} />
           ))}
         </div>

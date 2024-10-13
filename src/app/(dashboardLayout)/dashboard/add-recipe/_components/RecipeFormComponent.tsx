@@ -32,7 +32,7 @@ import ImageUpload from "@/components/ui/file-upload";
 import { toast } from "sonner";
 import {
   useCreateRecipeMutation,
-  useGetSingleRecipeQuery,
+  
   useUpdateRecipeMutation,
 } from "@/redux/api/features/recipe/recipeApi";
 import { useRouter } from "next/navigation";
@@ -161,7 +161,7 @@ const RecipeFormComponent = ({ recipe }: any) => {
     return <div>Error loading categories</div>;
   }
   if (!userInfo || isLoading) {
-    return <LoadingAnimation/>;
+    return <LoadingAnimation />;
   }
   return (
     <div className="flex justify-center ">

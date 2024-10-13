@@ -49,21 +49,21 @@ export default function LoginForm() {
 
   const onSubmit = async (data: any) => {
     try {
-      console.log("object");
+      
       const res = await login(data);
 
       if (res?.data?.data?.accessToken) {
         Cookies.set("accessToken", res.data.data.accessToken, {
-          secure: true,
-          // sameSite: "none",
-          httpOnly: false,
+          secure: process.env.NODE_ENV === "production", // Only true in production
+          sameSite: "strict", // Adjust as needed
+          path: "/", // Make sure it's accessible across the entire app
         });
       }
       if (res?.data?.data?.refreshToken) {
         Cookies.set("refreshToken", res.data.data.refreshToken, {
-          secure: true,
-          // sameSite: "none",
-          httpOnly: false,
+          secure: process.env.NODE_ENV === "production", // Only true in production
+          sameSite: "strict", // Adjust as needed
+          path: "/", // Make sure it's accessible across the entire app
         });
       }
       if (res?.error) {

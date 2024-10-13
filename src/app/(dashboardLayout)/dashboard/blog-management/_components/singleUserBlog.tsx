@@ -23,7 +23,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   useDeleteBlogMutation,
-  useGetAllBlogQuery,
+  
   useGetBlogForUserQuery,
  
 } from "@/redux/api/features/blog/blogApi";
@@ -32,7 +32,7 @@ import { useRouter } from "next/navigation";
 import { foodBlogCategories } from "@/constant";
 import { z } from "zod";
 import { useAppSelector } from "@/lib/hooks";
-import { useGetRecipeForUserQuery } from "@/redux/api/features/recipe/recipeApi";
+
 import LoadingAnimation from "@/app/loading";
 
 export const BlogSchema = z.object({

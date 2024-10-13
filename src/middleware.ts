@@ -85,6 +85,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+
   // Get access token from cookies
   const accessToken = cookies().get("accessToken")?.value;
 
@@ -106,6 +107,36 @@ export async function middleware(request: NextRequest) {
   // Decode the access token to get the user role
   const decodedToken = decode(accessToken) as any;
   const role = decodedToken?.role;
+
+
+
+
+
+  // const cookieHeader = request.headers.get('cookie') || '';
+  // const accessToken = cookieHeader.split('; ').find(row => row.startsWith('accessToken='))?.split('=')[1];
+
+  // if (!accessToken) {
+  //   if (authRoutes.includes(pathname)) {
+  //     return NextResponse.next();
+  //   } else {
+  //     return NextResponse.redirect(
+  //       new URL(`/login?redirect=${pathname}`, request.url)
+  //     );
+  //   }
+  // }
+
+  // // Decode and continue as before
+  // const decodedToken = decode(accessToken) as any;
+  // const role = decodedToken?.role;
+  
+
+
+
+
+
+
+
+
 
   console.log(decodedToken, "decodedToken");
 
