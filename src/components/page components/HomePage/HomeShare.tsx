@@ -1,6 +1,7 @@
 import CommonBtn from "@/components/common/Button/CommonBtn";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const HomeShare = () => {
   return (
@@ -21,12 +22,12 @@ const HomeShare = () => {
           <p className="text-3xl md:text-4xl lg:text-5xl font-bold">
             Share Your <span className="text-[#b66055]">recipes</span>
           </p>
-          <p className="text-gray-500">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis
-            alias dicta illum ullam qui reiciendis, quidem unde iusto,
-            inventore, ab esse iste placeat fugiat. Enim impedit .
-          </p>
-          <CommonBtn>Share your recipe</CommonBtn>
+            <p className="text-gray-500">
+            Share your favorite recipes with the world and get feedback from
+            other food lovers.
+            </p>
+           
+        <Link href={'/dashboard/add-recipe'}><CommonBtn>Share your recipe</CommonBtn></Link>  
         </div>
       </div>
     </div>

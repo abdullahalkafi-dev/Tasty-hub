@@ -1,5 +1,7 @@
+"use client"
 import { Check } from "lucide-react";
 import Image from "next/image";
+import { loadStripe } from "@stripe/stripe-js";
 import {
   Card,
   CardContent,
@@ -9,11 +11,42 @@ import {
 } from "../ui/card";
 import { TUser } from "@/types/user.types";
 import { toast } from "sonner";
+import { useGetSingleUserQuery } from "@/redux/api/features/auth/authApi";
 
 const PremiumCard = ({ latestUser }: { latestUser: TUser }) => {
-  const handelPremium = () => {
+  const {refetch}=useGetSingleUserQuery(undefined)
+  const handelPremium = async () => {
     if (latestUser?.isPremium) {
-      toast.error("Already-Premium");
+      return toast.error("Already-Premium");
+    }
+
+    const stripePromise = loadStripe(
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+    );
+    const body = {
+      userId: latestUser._id,
+    };
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/create-checkout-session`,
+      {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+      }
+    );
+    const session = await response.json();
+    const stripe = await stripePromise;
+    const result = await stripe?.redirectToCheckout({
+      sessionId: session.id,
+    });
+    if(session.id){
+      refetch()
+    }
+    if (result?.error) {
+      toast.error(result.error.message);
     }
   };
 

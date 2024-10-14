@@ -11,8 +11,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5001/api/v1",
-    // baseUrl: "https://tasty-hub-backend-lilac.vercel.app/api/v1",
+    // baseUrl: "http://localhost:5001/api/v1",
+    baseUrl: "https://tasty-hub-backend-lilac.vercel.app/api/v1",
 
     credentials: "include",
 
@@ -45,4 +45,4 @@ export const baseApi = createApi({
 
   endpoints: () => ({}),
 });
-console.log('dddddd',getAccessToken());
+console.log("dddddd", getAccessToken());

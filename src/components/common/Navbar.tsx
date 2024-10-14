@@ -58,9 +58,9 @@ const Navbar = () => {
       <div className="mx-auto bg-[#FFF0ED] w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a href="/" className="text-xl font-bold">
-              Logo
-            </a>
+            <Link href="/" className="text-xl font-bold">
+          TastyHub
+            </Link>
           </div>
           <div className="hidden lg:block">
             <div className="ml-10 dark:bg-black flex items-baseline space-x-4">

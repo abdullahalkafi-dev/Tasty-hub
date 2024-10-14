@@ -9,12 +9,13 @@ export default function NewsCard({ blog }: { blog: TBlog }) {
       <Link href={`/blog/${blog._id}`}>
         <div className="relative">
           <Image
-            className="w-full"
-            src="https://images.pexels.com/photos/61180/pexels-photo-61180.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=1&amp;w=500"
+            className="w-full max-h-[300px] object-cover"
+            src={blog.image}
             alt="Sunset in the mountains"
             layout="responsive"
             width={500}
             height={333}
+            
           />
           <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25" />
         </div>

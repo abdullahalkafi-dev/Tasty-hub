@@ -267,7 +267,9 @@ const RecipeFormComponent = ({ recipe }: any) => {
               </div>
               <div className="flex justify-center gap-3 -mt-5 items-center">
                 <LabelInputContainer className="mb-4">
-                  <p className="text-[14px]  font-medium">Food category</p>
+                  <p className="text-[14px]  font-medium">
+                     
+                     Category</p>
                   <FormField
                     control={form.control}
                     name="category"

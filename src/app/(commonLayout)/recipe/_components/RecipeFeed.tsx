@@ -41,7 +41,7 @@ const user = useAppSelector((state) => state.auth.user);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/recipe/?limit=2&page=${page}&searchTerm=${searchTerm}${categoryQuery}`,
         {
-          cache: "no-cache", // No caching to ensure fresh data
+          cache: "no-store", // No caching to ensure fresh data
           credentials: "include", // Include credentials in the request
           headers: (() => {
         const headers = new Headers();

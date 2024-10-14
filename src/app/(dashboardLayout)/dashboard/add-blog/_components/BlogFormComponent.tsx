@@ -98,8 +98,9 @@ const BlogFormComponent = ({ blog }: any) => {
         toast((error.data?.message as string) || "Something went wrong");
       } else {
         if (res?.data?.success) {
-          router.push("/");
-          toast("Blog updated successfully", { id: 1, duration: 500 });
+          toast.success("Blog updated successfully", { id: 1, duration: 500 });
+          router.push(`/blog/${res.data.data._id}`);
+          
         }
       }
       return;
@@ -114,11 +115,11 @@ const BlogFormComponent = ({ blog }: any) => {
     }
 
     if (res?.data?.success) {
-      router.push("/");
-      toast("Blog added successfully", { id: 1, duration: 500 });
+      toast.success("Blog added successfully", { id: 1, duration: 500 });
+      router.push(`/blog/${res.data.data._id}`);
     }
 
-    // form.reset();
+    form.reset();
   };
 
   const onError = (errors: any) => {
