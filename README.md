@@ -50,7 +50,7 @@ Open http://localhost:3000 to view the app in the browser.
 Live Link
 Check out the live version of the TastyHub platform:
 
-Live Link: [https://tastyhub.example.com](https://tasty-hub-chi.vercel.app/)
+Live Link: [https://tasty-hub-chi.vercel.app](https://tasty-hub-chi.vercel.app/)
 Admin Credentials:
 Username: admin@gmail.com
 Password: 12345678
