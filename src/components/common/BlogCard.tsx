@@ -11,10 +11,11 @@ export default function NewsCard({ blog }: { blog: TBlog }) {
           <Image
             className="w-full max-h-[300px] object-cover"
             src={blog.image}
-            alt="Sunset in the mountains"
+            alt={blog.title}
             layout="responsive"
             width={500}
             height={333}
+loading="lazy"
             
           />
           <div className="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25" />

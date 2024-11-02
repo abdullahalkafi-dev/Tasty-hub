@@ -9,9 +9,12 @@ import LoadingAnimation from "@/app/loading";
 
 const ProfileComponent = () => {
   const userFromRedux = useAppSelector((state) => state.auth.user);
+
   const user = useGetSingleUserQuery(userFromRedux?._id).data?.data;
+  const userData = useGetSingleUserQuery(userFromRedux?._id);
+  console.log(userData);
   if (!user) {
-    return <LoadingAnimation/>;
+    return <LoadingAnimation />;
   }
 
   return (

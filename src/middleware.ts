@@ -85,10 +85,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-
   // Get access token from cookies
   const accessToken = cookies().get("accessToken")?.value;
-
+  console.log("Request Headers:", request.headers.get('cookie'));
+  console.log(cookies(), "cookies");
+  console.log(accessToken, "accessToken");
   // If no access token, handle unauthenticated routes
   if (!accessToken) {
     if (authRoutes.includes(pathname)) {
@@ -108,10 +109,6 @@ export async function middleware(request: NextRequest) {
   const decodedToken = decode(accessToken) as any;
   const role = decodedToken?.role;
 
-
-
-
-
   // const cookieHeader = request.headers.get('cookie') || '';
   // const accessToken = cookieHeader.split('; ').find(row => row.startsWith('accessToken='))?.split('=')[1];
 
@@ -128,15 +125,6 @@ export async function middleware(request: NextRequest) {
   // // Decode and continue as before
   // const decodedToken = decode(accessToken) as any;
   // const role = decodedToken?.role;
-  
-
-
-
-
-
-
-
-
 
   console.log(decodedToken, "decodedToken");
 

@@ -1,4 +1,5 @@
 "use client";
+import { useEdgeStore } from "@/lib/edgestore";
 // Packages
 import { AnimatePresence, motion } from "framer-motion";
 import { CloudUpload, X } from "lucide-react";
@@ -7,7 +8,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 // Components
-import { useEdgeStore } from "@/lib/edgestore";
+
 
 interface ImageUploadProps {
   onChange: (urls: string[]) => void;

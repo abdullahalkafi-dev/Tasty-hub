@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Need to use the React-specific entry point to import createApi
 
-import {
-  getAccessToken,
-  getRefreshToken,
-} from "@/components/common/utils/token";
+// import {
+//   getAccessToken,
+//   getRefreshToken,
+// } from "@/components/common/utils/token";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define a service using a base URL and expected endpoints
@@ -16,22 +16,24 @@ export const baseApi = createApi({
 
     credentials: "include",
 
-    prepareHeaders: (headers) => {
-      const accessToken = getAccessToken();
-      const refreshToken = getRefreshToken();
+    //     prepareHeaders: (headers) => {
+    //       const accessToken = getAccessToken();
+    //       const refreshToken = getRefreshToken();
+    //       console.log('object');
+    // console.log(accessToken);
+    // console.log(refreshToken);
+    //       // Set the Authorization header if the access token exists
+    //       if (accessToken) {
+    //         headers.set("Authorization", `Bearer ${accessToken}`);
+    //       }
 
-      // Set the Authorization header if the access token exists
-      if (accessToken) {
-        headers.set("Authorization", `Bearer ${accessToken}`);
-      }
+    //       // Optionally, set the refresh token in a custom header if needed
+    //       if (refreshToken) {
+    //         headers.set("x-refresh-token", refreshToken);
+    //       }
 
-      // Optionally, set the refresh token in a custom header if needed
-      if (refreshToken) {
-        headers.set("x-refresh-token", refreshToken);
-      }
-
-      return headers;
-    },
+    //       return headers;
+    //     },
   }),
   tagTypes: [
     "User",
@@ -45,4 +47,3 @@ export const baseApi = createApi({
 
   endpoints: () => ({}),
 });
-console.log("dddddd", getAccessToken());

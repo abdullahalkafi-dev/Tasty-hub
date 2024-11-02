@@ -19,8 +19,9 @@ const DashboardComponents = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log("user", user);
     if (!user) {
-      router.push("/login");
+     return router.push("/login");
     }
   }, [user, router]);
 

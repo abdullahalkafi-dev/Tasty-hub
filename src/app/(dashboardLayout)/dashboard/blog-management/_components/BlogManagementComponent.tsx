@@ -24,7 +24,6 @@ import { Button } from "@/components/ui/button";
 import {
   useDeleteBlogMutation,
   useGetAllBlogQuery,
- 
 } from "@/redux/api/features/blog/blogApi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -33,12 +32,12 @@ import { z } from "zod";
 import LoadingAnimation from "@/app/loading";
 
 export const BlogSchema = z.object({
-  user: z.string({ required_error: 'User Id is required' }).min(2).max(255),
+  user: z.string({ required_error: "User Id is required" }).min(2).max(255),
   blogCategory: z.enum(foodBlogCategories as [string, ...string[]]),
-  title: z.string({ required_error: 'Title is required' }),
-  description: z.string({ required_error: 'Description is required' }),
-  image: z.string({ invalid_type_error: 'Invalid type' }),
-  isPremium: z.boolean({ invalid_type_error: 'Invalid type' }).optional(),
+  title: z.string({ required_error: "Title is required" }),
+  description: z.string({ required_error: "Description is required" }),
+  image: z.string({ invalid_type_error: "Invalid type" }),
+  isPremium: z.boolean({ invalid_type_error: "Invalid type" }).optional(),
 });
 
 interface BlogData {
@@ -62,86 +61,88 @@ const BlogTable = () => {
 
   const router = useRouter();
 
-  const columns = useMemo<ColumnDef<BlogData>[]>(() => [
-    {
-      header: "User",
-      accessorKey: "user",
-      cell: ({ row }) => (
-        <div className="flex items-center">
-          <Image
-            width={400}
-            height={400}
-            src={row.original.user.image}
-            alt={row.original.user.name}
-            className="h-8 w-8 rounded-full mr-2"
-          />
-          <span>{row.original.user.name}</span>
-        </div>
-      ),
-    },
-    {
-      header: "Blog Category",
-      accessorKey: "blogCategory",
-    },
-    {
-      header: "Title",
-      accessorKey: "title",
-    },
-    {
-      header: "Premium",
-      accessorKey: "isPremium",
-    },
-    {
-      header: "CreatedAt",
-      accessorKey: "createdAt",
-    },
-    {
-      header: "Actions",
-      cell: ({ row }) => (
-        <div className="flex gap-1">
-        
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push(`/blog/${row.original._id}`)}
-          >
-            Details
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => handleUpdate(row.original._id)}
-          >
-            Update
-          </Button>
-          <AlertDialog>
-            <AlertDialogTrigger>
-              <Button variant="destructive" size="sm" className="">
-                Delete
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your blog and remove your data from our servers.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => handleDelete(row.original._id)}
-                >
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
-      ),
-    },
-  ], []);
+  const columns = useMemo<ColumnDef<BlogData>[]>(
+    () => [
+      {
+        header: "User",
+        accessorKey: "user",
+        cell: ({ row }) => (
+          <div className="flex items-center">
+            <Image
+              width={400}
+              height={400}
+              src={row.original.user.image}
+              alt={row.original.user.name}
+              className="h-8 w-8 rounded-full mr-2"
+            />
+            <span>{row.original.user.name}</span>
+          </div>
+        ),
+      },
+      {
+        header: "Blog Category",
+        accessorKey: "blogCategory",
+      },
+      {
+        header: "Title",
+        accessorKey: "title",
+      },
+      {
+        header: "Premium",
+        accessorKey: "isPremium",
+      },
+      {
+        header: "CreatedAt",
+        accessorKey: "createdAt",
+      },
+      {
+        header: "Actions",
+        cell: ({ row }) => (
+          <div className="flex gap-1">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push(`/blog/${row.original._id}`)}
+            >
+              Details
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleUpdate(row.original._id)}
+            >
+              Update
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button variant="destructive" size="sm" className="">
+                  Delete
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your blog and remove your data from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleDelete(row.original._id)}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        ),
+      },
+    ],
+    []
+  );
 
   const table = useReactTable({
     data: blogData || [],
@@ -165,7 +166,7 @@ const BlogTable = () => {
   };
 
   if (isLoading) {
-    return <LoadingAnimation/>;
+    return <LoadingAnimation />;
   }
 
   if (error) {

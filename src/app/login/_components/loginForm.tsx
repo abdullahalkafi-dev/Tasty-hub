@@ -19,6 +19,7 @@ import { toast } from "sonner";
 
 import { setUserRedux } from "@/redux/api/features/auth/authSlice";
 import { useAppDispatch } from "@/lib/hooks";
+
 import LoadingAnimation from "@/app/loading";
 
 const userLoginSchema = z.object({
@@ -43,39 +44,41 @@ export default function LoginForm() {
     // Check if the user is already logged in
     const accessToken = Cookies.get("accessToken");
     if (accessToken && pathname === "/login") {
-      router.replace("/"); // Redirect to home if logged in
+      router.push("/"); // Redirect to home if logged in
     }
   }, [router, pathname]);
 
   const onSubmit = async (data: any) => {
     try {
-      
       const res = await login(data);
 
-      if (res?.data?.data?.accessToken) {
-        Cookies.set("accessToken", res.data.data.accessToken, {
-          secure: process.env.NODE_ENV === "production", // Only true in production
-          sameSite: "strict", // Adjust as needed
-          path: "/", // Make sure it's accessible across the entire app
-        });
-      }
-      if (res?.data?.data?.refreshToken) {
-        Cookies.set("refreshToken", res.data.data.refreshToken, {
-          secure: process.env.NODE_ENV === "production", // Only true in production
-          sameSite: "strict", // Adjust as needed
-          path: "/", // Make sure it's accessible across the entire app
-        });
-      }
+      // if (res?.data?.data?.accessToken) {
+      //   Cookies.set("accessToken", res.data.data.accessToken, {
+      //     secure: process.env.NODE_ENV === "production", // Only true in production
+      //     sameSite: "strict", // Adjust as needed
+      //     path: "/", // Make sure it's accessible across the entire app
+      //   });
+      // }
+      // if (res?.data?.data?.refreshToken) {
+      //   Cookies.set("refreshToken", res.data.data.refreshToken, {
+      //     secure: process.env.NODE_ENV === "production", // Only true in production
+      //     sameSite: "strict", // Adjust as needed
+      //     path: "/", // Make sure it's accessible across the entire app
+      //   });
+      // }
       if (res?.error) {
         const error = res.error as TResError;
         console.log(res?.error);
         toast((error.data?.message as string) || "Something went wrong");
       }
-     
-      if (res?.data?.success) {
-        dispatch(setUserRedux({ data: res?.data?.data?.user }));
 
-        router.push("/");
+      if (res?.data?.success) {
+        console.log(res?.data?.data?.user);
+        console.log("hello boy");
+
+        dispatch(setUserRedux({ data: res?.data?.data?.user }));
+    
+        router.replace("/");
         toast("Login successful");
       }
     } catch (err) {
@@ -84,7 +87,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Suspense fallback={<LoadingAnimation/>}>
+    <Suspense fallback={<LoadingAnimation />}>
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to TastyHub

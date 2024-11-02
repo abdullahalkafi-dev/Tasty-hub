@@ -9,11 +9,9 @@ const RecipePage = () => {
   return (
     <div>
       <BreadcrumbComponent links={breadcrumbLinks} />
-    <div>
-
-<RecipeFeed/>
-
-    </div>
+      <div>
+        <RecipeFeed />
+      </div>
     </div>
   );
 };

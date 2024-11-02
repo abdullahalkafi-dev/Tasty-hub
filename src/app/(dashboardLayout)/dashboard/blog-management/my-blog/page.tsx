@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const RecipeManagement = dynamic(
+const BlogManagement = dynamic(
     () =>
       import(
         "@/app/(dashboardLayout)/dashboard/blog-management/_components/singleUserBlog"
@@ -9,7 +9,7 @@ const RecipeManagement = dynamic(
 
 const MyRecipePage = () => {
   return (
-   <RecipeManagement/>
+   <BlogManagement/>
   );
 };
 

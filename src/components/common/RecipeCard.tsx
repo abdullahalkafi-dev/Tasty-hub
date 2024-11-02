@@ -65,7 +65,8 @@ const RecipeCard = ({ recipe }: { recipe: TRecipe }) => {
         <div className="relative rounded-t-xl overflow-hidden h-[200px] w-full">
           <Image
             src={recipe.recipeImage}
-            alt="recipe"
+            alt={recipe.name}
+            loading="lazy"
             layout="fill" // Ensures the image fills the container
             className="bg-gray-100 hover:scale-105 transition-all duration-500 object-cover" // Crops the image to cover the full space
           />
