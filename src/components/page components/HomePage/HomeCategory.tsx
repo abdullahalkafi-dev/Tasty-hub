@@ -13,8 +13,8 @@ const HomeCategory = async () => {
   const categories = res.data;
 
   return (
-    <div>
-      <div>
+   
+      <div className="container mx-auto">
         <Subheading text="Popular Categories" />
 
         <div className="grid grid-cols-1 py-10 mt-5 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -45,7 +45,7 @@ const HomeCategory = async () => {
           })}
         </div>
       </div>
-    </div>
+   
   );
 };
 

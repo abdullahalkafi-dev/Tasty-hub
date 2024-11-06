@@ -49,7 +49,6 @@ export default function LoginForm() {
 
   const onSubmit = async (data: any) => {
     try {
-      
       const res = await login(data);
 
       if (res?.data?.data?.accessToken) {
@@ -71,11 +70,11 @@ export default function LoginForm() {
         console.log(res?.error);
         toast((error.data?.message as string) || "Something went wrong");
       }
-     
+
       if (res?.data?.success) {
         dispatch(setUserRedux({ data: res?.data?.data?.user }));
 
-        router.push("/");
+        window.location.href = "/";
         toast("Login successful");
       }
     } catch (err) {
@@ -84,7 +83,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Suspense fallback={<LoadingAnimation/>}>
+    <Suspense fallback={<LoadingAnimation />}>
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
           Welcome to TastyHub

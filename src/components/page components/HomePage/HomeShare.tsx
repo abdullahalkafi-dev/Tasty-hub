@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const HomeShare = () => {
   return (
-    <div className="flex flex-col  md:min-h-[60vh] items-center md:flex-row py-20 md:p-10 gap-6">
+    <div className="flex flex-col mx-auto container md:min-h-[60vh] items-center md:flex-row py-20 md:p-10 gap-6">
       <div className="md:w-2/5 ">
         <Image
         className="w-full h-full "

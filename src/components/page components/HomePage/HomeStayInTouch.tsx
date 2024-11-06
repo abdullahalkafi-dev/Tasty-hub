@@ -10,40 +10,41 @@ import { useForm } from "react-hook-form";
 const HomeStayInTouch = () => {
   const form = useForm();
 
-  const onSubmit = (data:any) => {
+  const onSubmit = (data: any) => {
     console.log(data);
   };
   return (
-    
-      <div className="py-20 my-16 bg-[#fff0ed] ">
-        <div className="text-center space-y-4  pb-16">
-          <Subheading  text="Let's Stay In Touch" />
-          <p className="text-gray-600 text-xl">
-            Join our newsletter ,so that we reach out to you with our news and
-            offers
-          </p>
-        </div>
+    <div className="py-20 mx-auto container my-16 bg-[#fff0ed] ">
+      <div className="text-center space-y-4  pb-16">
+        <Subheading text="Let's Stay In Touch" />
+        <p className="text-gray-600 text-xl">
+          Join our newsletter ,so that we reach out to you with our news and
+          offers
+        </p>
+      </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex justify-center flex-col px-4 md:flex-row items-center mx-auto">
-              <div className="w-full  max-w-[700px]">
-                 <TextField
-                 control={form.control}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex justify-center flex-col px-4 md:flex-row items-center mx-auto">
+            <div className="w-full  max-w-[700px]">
+              <TextField
+                className="border border-gray-500"
+                control={form.control}
                 label="Email"
                 placeholder="example@gmail.com"
                 fieldName={"email"}
                 type={"email"}
               />
-              </div>
-             
-
-              <Button className="bg-[#b66055] ml-5 px-8 mt-[8.2px]">Submit</Button>
             </div>
-          </form>
-        </Form>
-      </div>
-   
+            <div>
+              <Button className="bg-[#b66055] ml-5 h-[40px] mt-7 px-8 ">
+                Submit
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 };
 

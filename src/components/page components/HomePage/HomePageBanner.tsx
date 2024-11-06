@@ -3,16 +3,13 @@ import Image from "next/image";
 import bannerImg from "../../../../public/assignment-6-banner.jpg";
 import Link from "next/link";
 
-
-
 const HomePageBanner = () => {
-
   return (
-    <div className="relative  h-[calc(100vh-64px)] bg-gradient-to-r from-purple-600 to-blue-600  text-white overflow-hidden">
-      <div className="absolute inset-0">
+    <div className="relative  h-[calc(100vh-64px)]   text-white overflow-hidden">
+      <div className="absolute    inset-0">
         <Image
           src={bannerImg}
-          alt="Background Image"
+          alt="Recipe Food Banner"
           layout="fill"
           objectFit="cover"
           objectPosition="center"
@@ -26,7 +23,7 @@ const HomePageBanner = () => {
           Welcome to Our TastyHub
         </h1>
         <p className="text-lg text-gray-300 mb-8">
-         Discover the best recipes from around the world
+          Discover the best recipes from around the world
         </p>
         <Link
           href="/recipe"
@@ -36,9 +33,7 @@ const HomePageBanner = () => {
         </Link>
       </div>
     </div>
- 
   );
 };
 
 export default HomePageBanner;
-

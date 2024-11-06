@@ -45,4 +45,3 @@ export const baseApi = createApi({
 
   endpoints: () => ({}),
 });
-console.log("dddddd", getAccessToken());

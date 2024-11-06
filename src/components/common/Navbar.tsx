@@ -41,6 +41,13 @@ const Navbar = () => {
     setIsMounted(true);
   }, []);
 
+
+
+
+
+
+
+
   const handleLogout = () => {
     // Remove authentication cookies
     Cookies.remove("accessToken");
@@ -53,13 +60,23 @@ const Navbar = () => {
     router.push("/");
   };
 
+// useEffect(()=>{
+//   const accessToken = Cookies.get("accessToken");
+//   const refreshToken = Cookies.get("refreshToken");
+//   if(!accessToken && !refreshToken){
+//     dispatch(logout());
+//   }
+
+
+// },[dispatch])
+
   return (
-    <nav className="container relative z-20 transition-all duration-300">
-      <div className="mx-auto bg-[#FFF0ED] w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className=" relative  bg-[#FFF0ED]  z-20 transition-all duration-300">
+      <div className="mx-auto container w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           <div className="flex-shrink-0">
             <Link href="/" className="text-xl font-bold">
-          TastyHub
+              TastyHub
             </Link>
           </div>
           <div className="hidden lg:block">
@@ -68,7 +85,7 @@ const Navbar = () => {
                 <Link
                   key={menu.id}
                   href={menu.href}
-                  className="text-gray-800 dark:text-white hover:text-gray-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-800 text-xl dark:text-white hover:text-gray-600 px-3 py-2 rounded-md  font-bold"
                 >
                   {menu.linkText}
                 </Link>

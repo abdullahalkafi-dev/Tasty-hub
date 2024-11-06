@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useAppSelector } from "@/lib/hooks";
 
-
 import PremiumIcon from "../utils/PremiumIcon";
 import {
   useFollowUserMutation,
@@ -16,13 +15,11 @@ import { toast } from "sonner";
 import PremiumCard from "../PremiumCard";
 
 const SideSection = () => {
-
-
-const loggedInUser = useAppSelector((state) => state.auth.user);
+  const loggedInUser = useAppSelector((state) => state.auth.user);
   const { data: usersRes, isLoading } = useGetAllUsersQuery(undefined);
-  const users = usersRes?.data?.filter((u: TUser) => u._id !== loggedInUser?._id);
-
-  
+  const users = usersRes?.data?.filter(
+    (u: TUser) => u._id !== loggedInUser?._id
+  );
 
   const { data, refetch } = useGetSingleUserQuery(loggedInUser?._id);
   const [unFollow] = useUnFollowUserMutation();
@@ -62,7 +59,8 @@ const loggedInUser = useAppSelector((state) => state.auth.user);
   }
   return (
     <div className="sticky top-20 h-[calc(100vh-5rem)] ">
-     <PremiumCard latestUser={latestUser} />
+      {latestUser?.isPremium && <PremiumCard latestUser={latestUser} />}
+
       <div className="bg-[#FFF0ED]  drop-shadow-xl min-h-[52vh] mt-5">
         <div className="flex flex-col gap-2 p-6">
           {users?.slice(0, 6).map((user: TUser) => (
@@ -72,7 +70,6 @@ const loggedInUser = useAppSelector((state) => state.auth.user);
             >
               <div className="flex justify-between w-full items-center">
                 <div className="flex justify-start items-center gap-2">
-                  {" "}
                   <Image
                     src={user?.image}
                     alt="User profile image"
@@ -81,7 +78,7 @@ const loggedInUser = useAppSelector((state) => state.auth.user);
                     className=" rounded-full w-[50px] h-[50px]"
                   />
                   <span className="flex flex-col ">
-                    <span className="font-semibold">{user?.name}</span>{" "}
+                    <span className="font-semibold">{user?.name}</span>
                     <small className="text-xs">{user?.email}</small>
                   </span>
                 </div>

@@ -6,7 +6,7 @@ import HomeShare from "@/components/page components/HomePage/HomeShare";
 import HomeStayInTouch from "@/components/page components/HomePage/HomeStayInTouch";
 export default function Home() {
   return (
-    <div className="">
+    <div className="bg[#FFF0ED] ">
       <HomePageBanner />
       <HomeShare />
       <HomeCategory />
