@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import { loadStripe } from "@stripe/stripe-js";
@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { useGetSingleUserQuery } from "@/redux/api/features/auth/authApi";
 
 const PremiumCard = ({ latestUser }: { latestUser: TUser }) => {
-  const {refetch}=useGetSingleUserQuery(undefined)
+  const { refetch } = useGetSingleUserQuery(undefined);
   const handelPremium = async () => {
     if (latestUser?.isPremium) {
       return toast.error("Already-Premium");
@@ -42,8 +42,8 @@ const PremiumCard = ({ latestUser }: { latestUser: TUser }) => {
     const result = await stripe?.redirectToCheckout({
       sessionId: session.id,
     });
-    if(session.id){
-      refetch()
+    if (session.id) {
+      refetch();
     }
     if (result?.error) {
       toast.error(result.error.message);
@@ -63,9 +63,9 @@ const PremiumCard = ({ latestUser }: { latestUser: TUser }) => {
           <CardContent>
             <ul className="space-y-2">
               {[
-                "Access to basic recipes",
+                "Access to Premium recipes",
                 "Weekly newsletter",
-                "Community forum access",
+                "Access to exclusive content",
               ].map((feature, index) => (
                 <li key={index} className="flex items-center">
                   <Check className="mr-2 h-4 w-4 text-green-500" />

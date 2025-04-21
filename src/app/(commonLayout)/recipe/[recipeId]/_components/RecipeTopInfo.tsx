@@ -3,7 +3,13 @@ import PremiumIcon from "@/components/common/utils/PremiumIcon";
 import { useGetSingleRecipeQuery } from "@/redux/api/features/recipe/recipeApi";
 import { TRecipe } from "@/types/recipe.types";
 import { format } from "date-fns";
-import { Calendar, MessageSquare, ThumbsUp, UserCircle } from "lucide-react";
+import {
+  Calendar,
+  MessageSquare,
+  ThumbsDown,
+  ThumbsUp,
+  UserCircle,
+} from "lucide-react";
 
 const RecipeTopInfo = ({ recipe: recipeForId }: { recipe: TRecipe }) => {
   const { data, isLoading } = useGetSingleRecipeQuery(recipeForId?._id);
@@ -32,7 +38,7 @@ const RecipeTopInfo = ({ recipe: recipeForId }: { recipe: TRecipe }) => {
       </div>
       <div className="flex items-center gap-1">
         {" "}
-        <ThumbsUp color="#b76156" /> <p>{recipe?.likes?.length}</p> Likes
+        <ThumbsDown color="#b76156" /> <p>{recipe?.likes?.length}</p> DisLikes
       </div>
       {recipe.isPremium && <PremiumIcon />}
     </div>

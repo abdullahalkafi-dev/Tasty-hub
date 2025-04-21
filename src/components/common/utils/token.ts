@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 
 export const getAccessToken = () => {
-  console.log( Cookies.get("accessToken"));
+  console.log( "access",Cookies.get("accessToken"));
   return Cookies.get("accessToken"); // Adjust the cookie name if needed
 };
 

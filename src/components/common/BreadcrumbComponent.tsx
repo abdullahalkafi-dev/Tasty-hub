@@ -17,7 +17,7 @@ type TLinks = {
 
 const BreadcrumbComponent = ({ links }: { links: TLinks }) => {
   return (
-    <Breadcrumb className="ml-3">
+    <Breadcrumb className="ml-3 mt-2">
       <BreadcrumbList>
         {links.preLinks.map((preLink) => (
           <div className="flex items-center" key={preLink?.name}>

@@ -78,6 +78,20 @@ const recipeApi = baseApi.injectEndpoints({
         { type: "SingleRecipe", id },
       ],
     }),
+    addLike: builder.mutation({
+      query: (id) => ({
+        url: `/recipe/like/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["SingleRecipe", "Recipe"],
+    }),
+    addDislike: builder.mutation({
+      query: (id) => ({
+        url: `/recipe/dislike/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["SingleRecipe", "Recipe"],
+    })
   }),
 });
 
@@ -91,4 +105,6 @@ export const {
   useTogglePublishStatusMutation,
   useGetRecipeCommentQuery,
   useCreateCommentMutation,
+  useAddLikeMutation,
+  useAddDislikeMutation,
 } = recipeApi;

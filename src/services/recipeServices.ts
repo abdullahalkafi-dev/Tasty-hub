@@ -5,7 +5,7 @@ import {
 
 export const getRecipe = async (limit: string = "10000") => {
   const accessToken = getAccessToken(); // Replace with actual access token retrieval logic
-  console.log(accessToken);
+
   const refreshToken = getRefreshToken(); // Replace with actual refresh token retrieval logic
 
   const headers = new Headers();

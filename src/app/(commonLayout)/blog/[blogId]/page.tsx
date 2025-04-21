@@ -48,7 +48,7 @@ const BlogDetailsPage = async ({
       </div>
     );
   return (
-    <div>
+    <div className="max-w-[1440px] mx-auto px-2">
       <div className="px-2">
         <BreadcrumbComponent links={breadcrumbLinks} />
 

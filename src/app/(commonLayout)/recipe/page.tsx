@@ -7,7 +7,7 @@ const RecipePage = () => {
     pageName: "Recipe",
   };
   return (
-    <div>
+    <div className="max-w-[1440px] mx-auto px-2">
       <BreadcrumbComponent links={breadcrumbLinks} />
     <div>
 

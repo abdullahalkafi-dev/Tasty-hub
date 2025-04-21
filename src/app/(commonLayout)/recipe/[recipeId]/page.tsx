@@ -10,6 +10,7 @@ import RecipeCommentsSection from "./_components/RecipeComment";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import RecipeDetailsSidebar from "./_components/recipeDetailsSidebar";
+import { LikeDislikeButton } from "@/components/common/Button/Like-DisLike-Button";
 
 
 const Page = async ({ params }: { params: { recipeId: string } }) => {
@@ -41,7 +42,7 @@ const Page = async ({ params }: { params: { recipeId: string } }) => {
       </div>
     );
   return (
-    <div>
+    <div className="max-w-[1440px] mx-auto px-2">
       <div className="px-2">
         <BreadcrumbComponent links={breadcrumbLinks} />
         <div className="p-2 md:p-1  mt-5">
@@ -86,14 +87,18 @@ const Page = async ({ params }: { params: { recipeId: string } }) => {
           <div className="w-full min-h-[60vh] ">
             <RecipeDescriptionComponent content={recipe?.description} />
           </div>
+     {/* like dislike */}
+     <LikeDislikeButton
+     foodId={recipe?._id}
 
+     />
           <div className="min-h-[30vh] w-full ">
             <RecipeCommentsSection recipeId={recipe?._id} />{" "}
             {/* Comments Section */}
           </div>
         </div>
         <div className="lg:w-[30%] min-h-screen lg:pt-5 px-5 ">
-          <p className="text-2xl text-center pb-5 font-bold">You may like </p>
+            <p className="text-2xl text-center font-serif pb-5 font-bold">Explore More Recipes</p>
           {<RecipeDetailsSidebar  />}
         </div>
       </div>
